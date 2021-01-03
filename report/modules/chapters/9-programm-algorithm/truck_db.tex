@@ -1,0 +1,191 @@
+\subsection{Модуль truck\_db}
+
+\subsubsection{TruckDataBase}
+
+\begin{lstlisting}
+    TruckDataBase(ScheduleDataBase *schedule_p, const std::string &db_path_ = "../dbs/truckdb.csv");
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|schedule = schedule_p;|
+    \item \verb|db_path = db_path_;|
+    \item \verb|_loadDataBase();|
+\end{itemize}
+
+\subsubsection{PrintAll}
+
+\begin{lstlisting}
+    void PrintAll() const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|std::cout << std::left|\\
+    \verb|<< std::setw(4)  << "id "|\\
+    \verb|<< std::setw(14) << "brand "|\\
+    \verb|<< std::setw(10)  << "capacity "|\\
+    \verb|<< std::setw(5)  << "transportation_distance\n";|
+    \item Цикл по \verb|i| от \verb|0| до \verb|list.size| 
+        \begin{itemize}
+            \item \verb|Print(i);|
+        \end{itemize}
+\end{itemize}
+
+\subsubsection{Print}
+
+\begin{lstlisting}
+    void Print(int index) const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|list._check_index(index);|
+    \item \verb|auto p = list.Get(index);|
+    \item \verb|std::cout << std::left|
+          \verb|<< std::setw(3)  << p-> id << " "|\\
+          \verb|<< std::setw(13) << str(p->brand) << " "|\\
+          \verb|<< std::setw(9)  << p->capacity << " "|\\
+          \verb|<< std::setw(5)  << p->transportation_distance << "\n";|
+\end{itemize}
+
+\subsubsection{Find}
+
+\begin{lstlisting}
+    Truck *Find(Request *request) const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|Truck *pTruck = list.head;|
+    \item Пока \verb|pTruck|
+    \begin{itemize}
+        \item Если \verb|(|\\
+        \verb|(pTruck->brand != request->truck_brand) |||\\
+        \verb|(pTruck->capacity < request->cargo_weight) |||\\ 
+        \verb|(pTruck->transportation_distance < request->target_route->distance) |||\\
+        \verb|(!schedule->IsFree(pTruck, request))|\\
+        \verb|)|
+            \begin{itemize}
+                \item \verb|pTruck = pTruck->next;|
+                \item \verb|continue;|
+            \end{itemize}
+        \item \verb|return pTruck;|
+    \end{itemize}
+    \item \verb|return nullptr;|
+\end{itemize}
+
+\subsubsection{Edit}
+
+\begin{lstlisting}
+    void Edit(int index);
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|list._check_index(index);|
+    \item \verb|Truck *target_element = list.Get(index);|
+    \item Пока \verb|true|
+        \begin{itemize}
+            \item \verb|std::cout << "------------------------\n";|
+            \item \verb|Print(index);|
+            \item \verb|std::cout << "------------------------\n";|
+            \item \verb|std::cout << "Choose filed:\n";|
+            \item \verb|std::cout << "1 brand" << "\n";|
+            \item \verb|std::cout << "2 capacity" << "\n";|
+            \item \verb|std::cout << "3 distance" << "\n";|
+            \item \verb|std::cout << "0 Finish edit" << "\n";|
+            \item \verb|int option = InputInt("Input: ");|
+            \item Смотрим на \verb|option|
+            \begin{itemize}
+                \item Если \verb|1:|
+                \item \verb|    target_element->brand = InputTB("New value: ");|
+                \item \verb|    break;|
+                \item Если \verb|2:|
+                \item \verb|    target_element->capacity = InputInt("New value: ");|
+                \item \verb|    break;|
+                \item Если \verb|3:|
+                \item \verb|    target_element->transportation_distance = InputInt("New value: ");|
+                \item \verb|    break;|
+                \item Если \verb|0: _updateDbFile(); return;|
+                \item По умолчанию \verb|: std::cout << "\nIncorrect input\n\n";|
+            \end{itemize}
+        \end{itemize}
+\end{itemize}
+
+\subsubsection{Add}
+
+\begin{lstlisting}
+    void Add();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|Truck new_element;|
+    \item \verb|new_element.id = list.Get(list.size-1)->id + 1;|
+    \item \verb|new_element.brand = InputTB("brand: ");|
+    \item \verb|new_element.capacity = InputInt("capacity: ");|
+    \item \verb|new_element.transportation_distance = InputInt("transportation distance: ");|
+    \item \verb|list.Add(new_element);|
+    \item \verb|_updateDbFile();|
+\end{itemize}
+
+\subsubsection{Delete}
+
+\begin{lstlisting}
+    void Delete(int index);
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|list.Delete(index);|
+    \item Цикл по \verb|i| от \verb|index| до \verb|list.size| 
+    \begin{itemize}
+        \item \verb|list.Get(i)->id = i;|
+    \end{itemize}
+    \item \verb|_updateDbFile();|
+\end{itemize}
+
+\subsubsection{Exit}
+
+\begin{lstlisting}
+    void Exit();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|list.Free();|
+\end{itemize}
+
+\subsubsection{\_loadDataBase}
+
+\begin{lstlisting}
+    void _loadDataBase();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|Truck truck{};|
+    \item \verb|io::CSVReader<4> in(db_path);|
+    \item \verb|in.read_header(io::ignore_extra_column, "id", "brand", "capacity", "transportation_distance");|
+    \item \verb|int brand_code;|
+    \item Пока \verb|in.read_row(truck.id, brand_code, truck.capacity, truck.transportation_distance)|
+        \begin{itemize}
+            \item \verb|truck.brand = static_cast<TruckBrand>(brand_code);|
+            \item \verb|list.Add(truck);|
+        \end{itemize}
+\end{itemize}
+
+\subsubsection{\_updateDbFile}
+
+\begin{lstlisting}
+    void _updateDbFile() const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|std::ofstream fout(db_path, std::ios_base::trunc);|
+    \item \verb|fout << "id,brand,capacity,transportation_distance\n";|
+    \item \verb|Truck *p = list.head;|
+    \item Пока \verb|p|
+        \begin{itemize}
+            \item 
+            \verb|fout << p->id << ","|\\
+            \verb|     << static_cast<int>(p->brand) << ","|\\
+            \verb|     << p->capacity << ","|\\
+            \verb|     << p->transportation_distance;|
+            \item \verb|fout << "\n";|
+            \item \verb|p = p->next;|
+        \end{itemize}
+\end{itemize}
+

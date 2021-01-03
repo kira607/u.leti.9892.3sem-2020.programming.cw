@@ -1,0 +1,87 @@
+\subsection{Модуль input}
+
+\subsubsection{InputInt}
+
+\begin{lstlisting}
+    int InputInt(const std::string& message = "Input: ", int l = _min_int, int r = _max_int);
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|int element;|
+    \item \verb|bool input = true;|
+    \item Пока \verb|input|
+        \begin{itemize}
+            \item \verb|std::cout << message;|
+            \item \verb|std::cin >> element;|
+            \item Если \verb|std::cin.fail() |||\\
+            \verb|(element < l |||\verb| element > r)|
+            \item \verb|    std::cout << "Wrong input!\n";|
+            \item Иначе
+            \item \verb|    input = false;|
+            \item \verb|std::cin.clear();|
+            \item \verb|std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');|
+        \end{itemize}
+    \item \verb|return element;|
+\end{itemize}
+
+\subsubsection{InputStr}
+
+\begin{lstlisting}
+    std::string InputStr(const std::string& message = "Input: ");
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|std::string element;|
+    \item \verb|bool input = true;|
+    \item Пока \verb|input|
+        \begin{itemize}
+            \item \verb|std::cout << message;|
+            \item \verb|std::cin >> element;|
+            \item Если \verb|std::cin.fail()|
+            \item \verb|    std::cout << "Wrong input!\n";|
+            \item Иначе
+            \item \verb|    input = false;|
+            \item \verb|std::cin.clear();|
+            \item \verb|std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');|
+        \end{itemize}
+    \item \verb|return element;|
+\end{itemize}
+
+\subsubsection{InputTB}
+
+\begin{lstlisting}
+    TruckBrand InputTB(const std::string& message = "Input: ");
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|std::cout << "1  Volvo\n";|
+    \item \verb|std::cout << "2  MercedesBenz\n";|
+    \item \verb|std::cout << "3  Man\n";|
+    \item \verb|std::cout << "4  Daf\n";|
+    \item \verb|std::cout << "5  Scania\n";|
+    \item \verb|std::cout << "6  Iveco\n";|
+    \item \verb|std::cout << "7  Renault\n";|
+    \item \verb|std::cout << "8  Nissan\n";|
+    \item \verb|std::cout << "9  Tatra\n";|
+    \item \verb|std::cout << "10 Mitsubishi\n";|
+    \item \verb|int code = InputInt(message, 1, 10);|
+    \item \verb|return static_cast<TruckBrand>(code);|
+\end{itemize}
+
+\subsubsection{InputDest}
+
+\begin{lstlisting}
+    Destination InputDest(const std::string& message = "Input: ");
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|std::cout << "1 Omsk\n";|
+    \item \verb|std::cout << "2 Kaliningrad\n";|
+    \item \verb|std::cout << "3 StPetersburg\n";|
+    \item \verb|std::cout << "4 Novgorod\n";|
+    \item \verb|std::cout << "5 Sochi\n";|
+    \item \verb|std::cout << "6 Murmansk\n";|
+    \item \verb|int code = InputInt(message, 1, 6);|
+    \item \verb|return static_cast<Destination>(code);|
+\end{itemize}
+

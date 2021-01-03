@@ -1,0 +1,267 @@
+\subsection{Модуль administrator\_console}
+
+\subsubsection{AdministratorConsole}
+
+\begin{lstlisting}
+    AdministratorConsole(DataBases *data_bases);
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|dbs = data_bases;|
+\end{itemize}
+
+\subsubsection{Run}
+
+\begin{lstlisting}
+    int Run();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|_loadRealPassword();|
+    \item \verb|_inputPassword("Password: ");|
+    \item Если \verb|_verifyPassword()| вернул \verb|false|
+        \begin{itemize}
+            \item \verb|std::cout << "Incorrect password!\n";|
+            \item \verb|return 1;|
+        \end{itemize}
+    \item \verb|return _mainMenu();|
+\end{itemize}
+
+\subsubsection{\_loadRealPassword}
+
+\begin{lstlisting}
+    void _loadRealPassword();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|std::ifstream fin("../.pass");|
+    \item Если \verb|!fin|
+    \begin{itemize}
+        \item \verb|std::cerr << ".pass does not exist!\n";|
+    \end{itemize}
+    \item \verb|fin >> real_password;|
+\end{itemize}
+
+\subsubsection{\_uploadPassword}
+
+\begin{lstlisting}
+    void _uploadPassword() const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|std::ofstream fout("../.pass", std::ios_base::trunc);|
+    \item Если \verb|!fout|
+    \begin{itemize}
+        \item \verb|std::cerr << ".pass does not exist!\n";|
+    \end{itemize}
+    \item \verb|fout << real_password;|
+\end{itemize}
+
+\subsubsection{\_getch}
+
+\begin{lstlisting}
+    static int _getch();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|int ch;|
+    \item \verb|struct termios t_old{}, t_new{};|
+    \item \verb|tcgetattr(STDIN_FILENO, &t_old);|
+    \item \verb|t_new = t_old;|
+    \item \verb|t_new.c_lflag &= ~(ICANON ||\verb| ECHO);|
+    \item \verb|tcsetattr(STDIN_FILENO, TCSANOW, &t_new);|
+    \item \verb|ch = getchar();|
+    \item \verb|tcsetattr(STDIN_FILENO, TCSANOW, &t_old);|
+    \item \verb|return ch;|
+\end{itemize}
+
+\subsubsection{\_inputPassword}
+
+\begin{lstlisting}
+    void _inputPassword(const std::string &prompt, bool show_asterisk=true);
+\end{lstlisting}
+
+\begin{itemize}
+    \item Если \verb|!password.empty()|
+        \begin{itemize}
+            \item \verb|password.clear();|
+        \end{itemize}
+    \item \verb|std::cout << prompt;|
+    \item \verb|unsigned char ch=0;|
+    \item Пока полученный символ не 'Enter' \verb|((ch = _getch()) != RETURN)|
+        \begin{itemize}
+            \item Если \verb|ch == BACKSPACE|
+            \begin{itemize}
+                \item Если \verb|password.length() != 0|
+                \item \ \ Если\verb|show_asterisk|
+                \item \ \ \ \ \verb|std::cout << "\b \b";|
+                \item \verb|password.resize(password.length() - 1);|
+            \end{itemize}
+            \item Иначе
+            \begin{itemize}
+                \item \verb|password += ch;|
+                \item Если\verb|show_asterisk|
+                \item \ \ \verb|std::cout << "\b \b";|
+            \end{itemize}
+        \end{itemize}
+    \item \verb|std::cout << "\n";|
+\end{itemize}
+
+\subsubsection{\_verifyPassword}
+
+\begin{lstlisting}
+    bool _verifyPassword() const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|std::string hashed_password = sha256(password);|
+    \item \verb|return hashed_password == real_password;|
+\end{itemize}
+
+\subsubsection{\_mainMenu}
+
+\begin{lstlisting}
+    int _mainMenu();
+\end{lstlisting}
+
+\begin{itemize}
+    \item Пока \verb|true|
+    \begin{itemize}
+        \item \verb|std::cout << "\nChoose Data Base" << "\n";|
+        \item \verb|std::cout << "1 Choose Truck Data Base" << "\n";|
+        \item \verb|std::cout << "2 Choose Driver Data Base" << "\n";|
+        \item \verb|std::cout << "3 Choose Route Data Base" << "\n";|
+        \item \verb|std::cout << "4 Change password\n";|
+        \item \verb|std::cout << "0 Exit" << "\n";|
+        \item \verb|int option = InputInt("Input: ");|
+        \item Смотрим на \verb|option|
+        \begin{itemize}
+            \item Если 1: \verb|_truckMenu(); break;|
+            \item Если 2: \verb|_driverMenu(); break;|
+            \item Если 3: \verb|_routeMenu(); break;|
+            \item Если 4: \verb|_changePassword(); break;|
+            \item Если 0: \verb|dbs->CloseAll(); return 0;|
+            \item По умолчанию: \verb|std::cout << "\nIncorrect input\n\n";|
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{\_truckMenu}
+
+\begin{lstlisting}
+    void _truckMenu() const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item Пока \verb|true|
+    \begin{itemize}
+        \item \verb|std::cout << "\nTruck Data Base" << "\n";|
+        \item \verb|std::cout << "1 Print all" << "\n";|
+        \item \verb|std::cout << "2 Edit" << "\n";|
+        \item \verb|std::cout << "3 Add" << "\n";|
+        \item \verb|std::cout << "4 Delete" << "\n";|
+        \item \verb|std::cout << "0 Exit" << "\n";|
+        \item \verb|int option = InputInt("Input: ");|
+        \item Смотрим на \verb|option|
+        \begin{itemize}
+            \item Если 1: \verb|dbs->truck_db.PrintAll(); break;|
+            \item Если 2: 
+            \begin{itemize}
+                \item \verb|int index = InputInt("Choose item by index: ", 0, dbs->truck_db.list.size-1);|
+                \item \verb|dbs->truck_db.Edit(index);|
+                \item \verb|break;|
+            \end{itemize}
+            \item Если 3: \verb|dbs->truck_db.Add(); break;|
+            \item Если 4: \verb|dbs->truck_db.Delete(InputInt("Index: ")); break;|
+            \item Если 0: \verb|return;|
+            \item По умолчанию: \verb|std::cout << "\nIncorrect input\n\n";|
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{\_driverMenu}
+
+\begin{lstlisting}
+    void _driverMenu() const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item Пока \verb|true|
+    \begin{itemize}
+        \item \verb|std::cout << "\nDriver Data Base" << "\n";|
+        \item \verb|std::cout << "1 Print all" << "\n";|
+        \item \verb|std::cout << "2 Edit" << "\n";|
+        \item \verb|std::cout << "3 Add" << "\n";|
+        \item \verb|std::cout << "4 Delete" << "\n";|
+        \item \verb|std::cout << "0 Exit" << "\n";|
+        \item \verb|int option = InputInt("Input: ");|
+        \item Смотрим на \verb|option|
+        \begin{itemize}
+            \item Если 1: \verb|dbs->driver_db.PrintAll(); break;|
+            \item Если 2: 
+            \begin{itemize}
+                \item \verb|int index = InputInt("Choose item by index: ", 0, dbs->driver_db.list.size-1);|
+                \item \verb|dbs->driver_db.Edit(index);|
+                \item \verb|break;|
+            \end{itemize}
+            \item Если 3: \verb|dbs->driver_db.Add(); break;|
+            \item Если 4: \verb|dbs->driver_db.Delete(InputInt("Index: ")); break;|
+            \item Если 0: \verb|return;|
+            \item По умолчанию: \verb|std::cout << "\nIncorrect input\n\n";|
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{\_routeMenu}
+
+\begin{lstlisting}
+    void _routeMenu() const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item Пока \verb|true|
+    \begin{itemize}
+        \item \verb|std::cout << "\nRoute Data Base" << "\n";|
+        \item \verb|std::cout << "1 Print all" << "\n";|
+        \item \verb|std::cout << "2 Edit" << "\n";|
+        \item \verb|std::cout << "3 Add" << "\n";|
+        \item \verb|std::cout << "4 Delete" << "\n";|
+        \item \verb|std::cout << "0 Exit" << "\n";|
+        \item \verb|int option = InputInt("Input: ");|
+        \item Смотрим на \verb|option|
+        \begin{itemize}
+            \item Если 1: \verb|dbs->route_db.PrintAll(); break;|
+            \item Если 2: 
+            \begin{itemize}
+                \item \verb|int index = InputInt("Choose item by index: ", 0, dbs->route_db.list.size-1);|
+                \item \verb|dbs->route_db.Edit(index);|
+                \item \verb|break;|
+            \end{itemize}
+            \item Если 3: \verb|dbs->route_db.Add(); break;|
+            \item Если 4: \verb|dbs->route_db.Delete(InputInt("Index: ")); break;|
+            \item Если 0: \verb|return;|
+            \item По умолчанию: \verb|std::cout << "\nIncorrect input\n\n";|
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{\_changePassword}
+
+\begin{lstlisting}
+    void _changePassword();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|_inputPassword("Old password: ");|
+    \item Если \verb|!_verifyPassword()|
+    \begin{itemize}
+        \item \verb|std::cerr << "Invalid password!\n";|
+        \item \verb|return;|
+    \end{itemize}
+    \item \verb|_inputPassword("New Password: ");|
+    \item \verb|std::string hashed_password = sha256(password);|
+    \item \verb|real_password = hashed_password;|
+    \item \verb|_uploadPassword();|
+    \item \verb|std::cout << "Password changed\n";|
+\end{itemize}
+

@@ -1,0 +1,123 @@
+\subsection{Модуль schedule\_db.h}
+
+
+\subsubsection{ScheduleDataBase}
+
+\underline{Назначение:}
+Конструктор для инициализации объекта структуры
+
+\underline{Параметры:} \verb|const std::string &db_path_ = "../dbs/scheduledb.csv"|
+
+\underline{Возвращаемое значение:} \verb|ScheduleDataBase|
+
+
+\subsubsection{PrintAll}
+
+\underline{Назначение:}
+Вывод базы данных на экран
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{Print}
+
+\underline{Назначение:}
+Вывод элемента базы данных на экран
+
+\underline{Параметры:} \verb|int index|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{IsFree}
+
+\underline{Назначение:}
+Проверка грузовика на занятость по запросу
+
+\underline{Параметры:} \verb|Truck *truck, Request *request|
+
+\underline{Возвращаемое значение:} \verb|bool|
+
+
+\subsubsection{IsFree}
+
+\underline{Назначение:}
+Проверка водителя на занятость по запросу
+
+\underline{Параметры:} \verb|Driver *driver, Request *request|
+
+\underline{Возвращаемое значение:} \verb|bool|
+
+
+\subsubsection{Update}
+
+\underline{Назначение:}
+Обновление базы данных в соответствии с текущим временем
+
+\underline{Параметры:} \verb|Date *current\_date|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{Add}
+
+\underline{Назначение:}
+Добавление элемента в базу данных
+
+\underline{Параметры:} \verb|Delivery *delivery|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{Exit}
+
+\underline{Назначение:}
+Закрытие базы данных
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{\_loadDataBase}
+
+\underline{Назначение:}
+Загрузка базы данных из файла
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{\_updateDbFile}
+
+\underline{Назначение:}
+Обновление файла базы данных в соостветствии со списком
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{\_parseDriversIdsStr}
+
+\underline{Назначение:}
+Обработка идентифекаторов водителей, загружаемых из базы
+
+\underline{Параметры:} \verb|const std::string &drivers_ids_str, int &drivers_count|
+
+\underline{Возвращаемое значение:} \verb|int *|
+
+
+\subsubsection{\_isIntersection}
+
+\underline{Назначение:}
+Проверка на пересечение временных отрезков, 
+записанных в запросе и поставке
+
+\underline{Параметры:} \verb|Delivery *delivery, Request *request|
+
+\underline{Возвращаемое значение:} \verb|bool|
+

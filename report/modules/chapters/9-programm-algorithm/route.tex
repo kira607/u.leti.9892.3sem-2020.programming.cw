@@ -1,0 +1,36 @@
+\subsection{Модуль route}
+
+\subsubsection{Route}
+
+\begin{lstlisting}
+    Route();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|id = -1;|
+    \item \verb|destination = Destination::NONE;|
+    \item \verb|distance = 0;|
+    \item \verb|loading_time = 0;|
+    \item \verb|drivers = 0;|
+    \item \verb|target_time_in_transit = 0;|
+    \item \verb|prev = nullptr;|
+    \item \verb|next = nullptr;|
+\end{itemize}
+
+\subsubsection{Route}
+
+\begin{lstlisting}
+    Route(const Route &route);
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|id = route.id;|
+    \item \verb|destination = route.destination;|
+    \item \verb|distance = route.distance;|
+    \item \verb|loading_time = route.loading_time;|
+    \item \verb|drivers = route.drivers;|
+    \item \verb|target_time_in_transit = route.target_time_in_transit;|
+    \item \verb|prev = nullptr;|
+    \item \verb|next = nullptr;|
+\end{itemize}
+

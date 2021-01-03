@@ -1,0 +1,81 @@
+\subsection{Модуль request\_handler}
+
+\subsubsection{RequestHandler}
+
+\begin{lstlisting}
+    RequestHandler(const std::string &request_file_path, DataBases *data_bases);
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|dbs = data_bases;|
+    \item \verb|request_path = request_file_path;|
+\end{itemize}
+
+\subsubsection{Run}
+
+\begin{lstlisting}
+    int Run();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|_loadRequest();|
+    \item \verb|std::time_t now_time = std::time(nullptr);|
+    \item \verb|Date now = Date(now_time);|
+    \item \verb|dbs->schedule_db.Update(&now);|
+    \item Если \verb|request.departure_date.time <= now.time|
+        \begin{itemize}
+            \item \verb|std::cerr << "requested departure date is too late!\n";|
+            \item \verb|return 100;|
+        \end{itemize}
+    \item \verb|Route *target_route = dbs->route_db.Find(request.destination);|
+    \item \verb|request.target_route = target_route;|
+    \item \verb|int full_delivery_time = target_route->target_time_in_transit * 2 + target_route->loading_time;|
+    \item \verb|Delivery delivery = Delivery(request.departure_date.time, full_delivery_time);|
+    \item \verb|request.arrival_date = Date(delivery.end);|
+    \item \verb|Truck *truck = dbs->truck_db.Find(&request);|
+    \item Если \verb|!truck|
+        \begin{itemize}
+            \item \verb|std::cerr << "Could not find free trucks on this date\n";|
+            \item \verb|return 120;|
+        \end{itemize}
+    \item \verb|std::cout << "truck id:" << truck->id << "\n";|
+    \item \verb|delivery.truck_id = truck->id;|
+    \item \verb|int *drivers_ids = dbs->driver_db.Find(&request);|
+    \item Если \verb|!drivers_ids|
+        \begin{itemize}
+            \item \verb|std::cerr << "Could not find free drivers on this date\n";|
+            \item \verb|return 121;|
+        \end{itemize}
+    \item \verb|std::cout << "drivers ids: ";|
+    \item Цикл по \verb|i| от \verb|0| до \verb|request.target_route->drivers|
+        \begin{itemize}
+            \item \verb|std::cout << drivers_ids[i] << ";";|
+        \end{itemize}
+    \item \verb|std::cout << "\n";|
+    \item \verb|delivery.drivers = request.target_route->drivers;|
+    \item \verb|delivery.drivers_ids = drivers_ids;|
+    \item \verb|dbs->schedule_db.Add(&delivery);|
+    \item \verb|dbs->CloseAll();|
+    \item \verb|return 0;|
+\end{itemize}
+
+\subsubsection{\_loadRequest}
+
+\begin{lstlisting}
+    void _loadRequest();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|int destination_code;|
+    \item \verb|int truck_brand_code;|
+    \item \verb|std::string departure_date;|
+    \item \verb|io::CSVReader<4> in(request_path);|
+    \item \verb|in.read_header(io::ignore_extra_column, "destination", "departure_date", "cargo_weight", "truck_brand");|
+    \item Пока \verb|in.read_row(destination_code, departure_date, request.cargo_weight, truck_brand_code)|
+        \begin{itemize}
+            \item \verb|request.destination = static_cast<Destination>(destination_code);|
+            \item \verb|request.truck_brand = static_cast<TruckBrand>(truck_brand_code);|
+            \item \verb|request.departure_date.SetFromString(departure_date);|
+        \end{itemize}
+\end{itemize}
+

@@ -1,0 +1,43 @@
+\section{Алгоритм программы}
+
+\subsection{main}
+
+\begin{lstlisting}
+    int main(int argc, char *argv[])
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|DataBases dbs{};|
+    \item Если \verb|argc == 1|
+    \begin{itemize}
+        \item \verb|AdministratorConsole ac{&dbs};|
+        \item \verb|return ac.Run();|
+    \end{itemize}
+    \item Если \verb|argc == 2|
+    \begin{itemize}
+        \item \verb|RequestHandler rh{argv[1], &dbs};|
+        \item \verb|return rh.Run();|
+    \end{itemize}
+    \item \verb|std::cerr << "Unexpected arguments count\n";|
+    \item \verb|return 255;|
+\end{itemize}
+
+\input{modules/chapters/9-programm-algorithm/date.tex}
+\input{modules/chapters/9-programm-algorithm/destination.tex}
+\input{modules/chapters/9-programm-algorithm/schedule.tex}
+\input{modules/chapters/9-programm-algorithm/administrator_console.tex}
+\input{modules/chapters/9-programm-algorithm/truck_db.tex}
+\input{modules/chapters/9-programm-algorithm/route.tex}
+\input{modules/chapters/9-programm-algorithm/schedule_db.tex}
+\input{modules/chapters/9-programm-algorithm/route_db.tex}
+\input{modules/chapters/9-programm-algorithm/input.tex}
+\input{modules/chapters/9-programm-algorithm/dbs.tex}
+\input{modules/chapters/9-programm-algorithm/route_list.tex}
+\input{modules/chapters/9-programm-algorithm/request_handler.tex}
+\input{modules/chapters/9-programm-algorithm/delivery.tex}
+\input{modules/chapters/9-programm-algorithm/truck_brand.tex}
+\input{modules/chapters/9-programm-algorithm/truck.tex}
+\input{modules/chapters/9-programm-algorithm/driver.tex}
+\input{modules/chapters/9-programm-algorithm/driver_db.tex}
+\input{modules/chapters/9-programm-algorithm/driver_list.tex}
+\input{modules/chapters/9-programm-algorithm/truck_list.tex}

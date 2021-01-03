@@ -1,0 +1,102 @@
+\subsection{Модуль route\_db.h}
+
+
+\subsubsection{RouteDataBase}
+
+\underline{Назначение:} 
+Конструктор для инициализации объекта структуры
+
+\underline{Параметры:} \verb|const std::string &db_path_ = "../dbs/routedb.csv"|
+
+\underline{Возвращаемое значение:} \verb|RouteDataBase|
+
+
+\subsubsection{PrintAll}
+
+\underline{Назначение:}
+Вывод базы данных на экран
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{Print}
+
+\underline{Назначение:}
+Вывод элемента базы данных на экран
+
+\underline{Параметры:} \verb|int index|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{Find}
+
+\underline{Назначение:}
+Поиск элемента по запросу
+
+\underline{Параметры:} \verb|Destination destination|
+
+\underline{Возвращаемое значение:} \verb|Route *|
+
+
+\subsubsection{Edit}
+
+\underline{Назначение:}
+Редактирование элемента базы данных
+
+\underline{Параметры:} \verb|int index|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{Add}
+
+\underline{Назначение:}
+Добавление элемента в базу данных
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{Delete}
+
+\underline{Назначение:}
+Удаление элемента из базы данных
+
+\underline{Параметры:} \verb|int index|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{Exit}
+
+\underline{Назначение:}
+Закрытие базы данных
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{\_loadDataBase}
+
+\underline{Назначение:}
+Загрузка базы данных
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{\_updateDbFile}
+
+\underline{Назначение:}
+Обновление файла базы данных
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|void|
+

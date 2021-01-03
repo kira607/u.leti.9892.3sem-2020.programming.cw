@@ -1,0 +1,26 @@
+\subsection{Модуль truck\_brand}
+
+\subsubsection{str}
+
+\begin{lstlisting}
+    std::string str(TruckBrand truck_brand);
+\end{lstlisting}
+
+\begin{itemize}
+    \item Смотрим на \verb|truck_brand|
+        \begin{itemize}
+            \item Если \verb|TruckBrand::Volvo: return "Volvo";|
+            \item Если \verb|TruckBrand::MercedesBenz: return "MercedesBenz";|
+            \item Если \verb|TruckBrand::Man: return "Man";|
+            \item Если \verb|TruckBrand::Daf: return "Daf";|
+            \item Если \verb|TruckBrand::Scania: return "Scania";|
+            \item Если \verb|TruckBrand::Iveco: return "Iveco";|
+            \item Если \verb|TruckBrand::Renault: return "Renault";|
+            \item Если \verb|TruckBrand::Nissan: return "Nissan";|
+            \item Если \verb|TruckBrand::Tatra: return "Tatra";|
+            \item Если \verb|TruckBrand::Mitsubishi: return "Mitsubishi";|
+            \item Если \verb|TruckBrand::NONE: return "NONE";|
+        \end{itemize}
+    \item \verb|throw std::out_of_range("Unexpected truck brand value");|
+\end{itemize}
+

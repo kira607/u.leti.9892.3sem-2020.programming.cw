@@ -1,0 +1,123 @@
+\subsection{Модуль schedule}
+
+\subsubsection{Get}
+
+\begin{lstlisting}
+    Delivery *Get(int index) const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|_check_index(index);|
+    \item \verb|auto p = head;|
+    \item Цикл по \verb|i| от \verb|0| до \verb|index|
+        \begin{itemize}
+            \item Если \verb|p->next|
+            \item \ \ \ \ \verb|p = p->next;|
+            \item Иначе
+            \item \ \ \ \ \verb|return nullptr;|
+        \end{itemize}
+    \item \verb|return p;|
+\end{itemize}
+
+\subsubsection{Add}
+
+\begin{lstlisting}
+    Delivery *Add(const Delivery &delivery);
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|auto *new_node = new Delivery(delivery);|
+    \item Если \verb|if (size == 0)|
+    \begin{itemize}
+        \item \verb|head = new_node;|
+        \item \verb|tail = new_node;|
+        \item \verb|new_node->prev = nullptr;|
+        \item \verb|new_node->next = nullptr;|
+    \end{itemize}
+    \item Иначе
+    \begin{itemize}
+        \item \verb|new_node->prev = tail;|
+        \item \verb|new_node->prev->next = new_node;|
+        \item \verb|new_node->next = nullptr;|
+        \item \verb|tail = new_node;|
+    \end{itemize}
+    \item \verb|++size;|
+    \item \verb|return new_node;|
+\end{itemize}
+
+\subsubsection{Delete}
+
+\begin{lstlisting}
+    void Delete(int index);
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|_check_index(index);|
+    \item Если \verb|size == 1 && index == 0|
+        \begin{itemize}
+            \item \verb|Free();|
+            \item \verb|return;|
+        \end{itemize}
+    \item Если \verb|index == 0|
+        \begin{itemize}
+            \item \verb|Delivery *new_head = head->next;|
+            \item \verb|delete head;|
+            \item \verb|head = new_head;|
+            \item \verb|head->prev = nullptr;|
+            \item \verb|--size;|
+            \item \verb|return;|
+        \end{itemize}
+    \item Если \verb|index == size - 1|
+        \begin{itemize}
+            \item \verb|Delivery *new_tail = tail->prev;|
+            \item \verb|delete tail;|
+            \item \verb|tail = new_tail;|
+            \item \verb|tail->next = nullptr;|
+            \item \verb|--size;|
+            \item \verb|return;|
+        \end{itemize}
+    \item \verb|auto p = Get(index);|
+    \item Если \verb|!p|
+        \begin{itemize}
+            \item \verb|return;|
+        \end{itemize}
+    \item \verb|p->next->prev = p->prev;|
+    \item \verb|p->prev->next = p->next;|
+    \item \verb|delete p;|
+    \item \verb|--size;|
+\end{itemize}
+
+\subsubsection{Free}
+
+\begin{lstlisting}
+    void Free();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|Delivery *p = head;|
+    \item Пока \verb|p != nullptr|
+        \begin{itemize}
+            \item \verb|Delivery *next = p->next;|
+            \item \verb|delete p;|
+            \item \verb|p = next;|
+        \end{itemize}
+    \item \verb|head = nullptr;|
+    \item \verb|tail = nullptr;|
+    \item \verb|size = 0;|
+\end{itemize}
+
+\subsubsection{\_check\_index}
+
+\begin{lstlisting}
+    void _check_index(const int &index) const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item Если \verb|index < 0 |||\verb| index >= size)|
+        \begin{itemize}
+            \item \verb|std::stringstream message;|
+            \item \verb|message << "Index out of range (possible [0-" << size-1 << "], given " << index << ")";|
+            \item \verb|throw std::out_of_range(message.str().c_str());|
+        \end{itemize}
+\end{itemize}
+

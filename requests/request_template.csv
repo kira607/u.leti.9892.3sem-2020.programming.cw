@@ -1,0 +1,2 @@
+destination,departure_date,cargo_weight,truck_brand
+<1-5>,dd.mm.yyyy HH:MM,<0-8> (float),<1-10>

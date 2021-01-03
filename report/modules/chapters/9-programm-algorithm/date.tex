@@ -1,0 +1,90 @@
+\subsection{Модуль date}
+
+\subsubsection{Date}
+
+\begin{lstlisting}
+    Date();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|_init();|
+\end{itemize}
+
+\subsubsection{Date}
+
+\begin{lstlisting}
+    Date(std::time_t time_to_set);
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|_init();|
+    \item \verb|SetFromTime(time_to_set);|
+\end{itemize}
+
+\subsubsection{Date}
+
+\begin{lstlisting}
+    Date(const std::string &date_str, const std::string &format = "");
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|_init();|
+    \item \verb|SetFromString(date_str, format);|
+\end{itemize}
+
+\subsubsection{SetFromString}
+
+\begin{lstlisting}
+    void SetFromString(const std::string &date_str, const std::string &format = "");
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|std::string local_format;|
+    \item Если \verb|format.empty()|
+        \begin{itemize}
+            \item \verb|local_format = default_format;|
+        \end{itemize}    
+    \item Иначе
+        \begin{itemize}
+            \item \verb|local_format = format;|
+        \end{itemize} 
+    \item \verb|strptime(date_str.c_str(), local_format.c_str(), date);|
+    \item \verb|time = std::mktime(date);|
+\end{itemize}
+
+\subsubsection{SetFromTime}
+
+\begin{lstlisting}
+    void SetFromTime(time_t time_to_set);
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|date = localtime(&time_to_set);|
+    \item \verb|time = mktime(date);|
+\end{itemize}
+
+\subsubsection{String}
+
+\begin{lstlisting}
+    std::string String() const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|int buff_size = 20;|
+    \item \verb|char buffer[buff_size];|
+    \item \verb|strftime(buffer, buff_size, default_format.c_str(), date);|
+    \item \verb|return std::string(buffer);|
+\end{itemize}
+
+\subsubsection{\_init}
+
+\begin{lstlisting}
+    void _init();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|time = 0;|
+    \item \verb|date = new tm{};|
+    \item \verb|default_format = "%d.%m.%Y %H:%M";|
+\end{itemize}
+

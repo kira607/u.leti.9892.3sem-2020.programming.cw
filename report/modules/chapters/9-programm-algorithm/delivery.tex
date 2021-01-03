@@ -1,0 +1,40 @@
+\subsection{Модуль delivery}
+
+\subsubsection{Delivery}
+
+\begin{lstlisting}
+    Delivery();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|_init();|
+\end{itemize}
+
+\subsubsection{Delivery}
+
+\begin{lstlisting}
+    Delivery(std::time_t start_time, int hours);
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|_init();|
+    \item \verb|start = start_time;|
+    \item \verb|end = start + hours * 60 * 60;|
+\end{itemize}
+
+\subsubsection{\_init}
+
+\begin{lstlisting}
+    void _init();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|start = 0;|
+    \item \verb|end = 0;|
+    \item \verb|drivers_ids = nullptr;|
+    \item \verb|drivers = 0;|
+    \item \verb|truck_id = -1; |
+    \item \verb|next = nullptr;|
+    \item \verb|prev = nullptr;|
+\end{itemize}
+

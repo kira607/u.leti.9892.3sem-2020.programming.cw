@@ -1,0 +1,22 @@
+\subsection{Модуль destination}
+
+\subsubsection{str}
+
+\begin{lstlisting}
+    std::string str(Destination destination);
+\end{lstlisting}
+
+\begin{itemize}
+    \item Смотрим на \verb|destination|
+    \begin{itemize}
+        \item Если \verb|Destination::Omsk: return "Omsk";|
+        \item Если \verb|Destination::Kaliningrad: return "Kaliningrad";|
+        \item Если \verb|Destination::StPetersburg: return "StPetersburg";|
+        \item Если \verb|Destination::Novgorod: return "Novgorod";|
+        \item Если \verb|Destination::Sochi: return "Sochi";|
+        \item Если \verb|Destination::Murmansk: return "Murmansk";|
+        \item Если \verb|Destination::NONE: return "NONE";|
+    \end{itemize}  
+    \item \verb|throw std::out_of_range("Unexpected destination value");|
+\end{itemize}
+

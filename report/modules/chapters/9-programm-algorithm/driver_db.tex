@@ -1,0 +1,204 @@
+\subsection{Модуль driver\_db}
+
+\subsubsection{DriverDataBase}
+
+\begin{lstlisting}
+    DriverDataBase(ScheduleDataBase *schedule_p, const std::string &db_path_ = "../dbs/driverdb.csv");
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|schedule = schedule_p;|
+    \item \verb|db_path = db_path_;|
+    \item \verb|_loadDataBase();|
+\end{itemize}
+
+\subsubsection{PrintAll}
+
+\begin{lstlisting}
+    void PrintAll() const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|std::cout << std::left|\\
+    \verb|<< std::setw(5)  << "id"|\\
+    \verb|<< std::setw(11) << "surname"|\\
+    \verb|<< std::setw(11) << "name"|\\
+    \verb|<< std::setw(16) << "patronymic"|\\
+    \verb|<< std::setw(12) << "truck_brand\n";|
+    \item Цикл по \verb|i| от \verb|0| до \verb|list.size| 
+        \begin{itemize}
+            \item \verb|Print(i);|
+        \end{itemize}
+\end{itemize}
+
+\subsubsection{Print}
+
+\begin{lstlisting}
+    void Print(int index) const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|list._check_index(index);|
+    \item \verb|auto p = list.Get(index);|
+    \item \verb|std::cout << std::left|\\
+          \verb|<< std::setw(4)  << p->id << " "|\\
+          \verb|<< std::setw(10) << p->surname << " "|\\
+          \verb|<< std::setw(10) << p->name << " "|\\
+          \verb|<< std::setw(15) << p->patronymic << " "|\\
+          \verb|<< std::setw(13) << str(p->truck_brand) << "\n";|
+\end{itemize}
+
+\subsubsection{Find}
+
+\begin{lstlisting}
+    int *Find(Request *request) const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|Driver *pDriver = list.head;|
+    \item \verb|int *drivers_ids = new int[request->target_route->drivers];|
+    \item \verb|int found_free_drivers = 0;|
+    \item Пока \verb|pDriver|
+        \begin{itemize}
+            \item Если \verb|(request->truck_brand != pDriver->truck_brand) |||\\
+            \verb|(!schedule->IsFree(pDriver, request))|
+                \begin{itemize}
+                    \item \verb|pDriver = pDriver->next;|
+                    \item \verb|continue;|
+                \end{itemize}
+            \item \verb|drivers_ids[found_free_drivers] = pDriver->id;|
+            \item \verb|++found_free_drivers;|
+            \item Если \verb|found_free_drivers < request->target_route->drivers|
+                \begin{itemize}
+                    \item \verb|pDriver = pDriver->next;|
+                    \item \verb|continue;|
+                \end{itemize}
+            \item \verb|return drivers_ids;|
+        \end{itemize}
+    \item \verb|return nullptr;|
+\end{itemize}
+
+\subsubsection{Edit}
+
+\begin{lstlisting}
+    void Edit(int index);
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|list._check_index(index);|
+    \item \verb|Driver *target_element = list.Get(index);|
+    \item Пока \verb|true|
+        \begin{itemize}
+            \item \verb|std::cout << "------------------------\n";|
+            \item \verb|Print(index);|
+            \item \verb|std::cout << "------------------------\n";|
+            \item \verb|std::cout << "Choose filed:\n";|
+            \item \verb|std::cout << "1 surname" << "\n";|
+            \item \verb|std::cout << "2 name" << "\n";|
+            \item \verb|std::cout << "3 patronymic" << "\n";|
+            \item \verb|std::cout << "4 truck brand" << "\n";|
+            \item \verb|std::cout << "0 Finish edit" << "\n";|
+            \item \verb|int option = InputInt("Input: ");|
+            \item Смотрим на \verb|option|
+            \begin{itemize}
+                \item Если \verb|1:|
+                \item \verb|    target_element->surname = InputStr("New value: ");|
+                \item \verb|    break;|
+                \item Если \verb|2:|
+                \item \verb|    target_element->name = InputStr("New value: ");|
+                \item \verb|    break;|
+                \item Если \verb|3:|
+                \item \verb|    target_element->patronymic = InputStr("New value: ");|
+                \item \verb|    break;|
+                \item Если \verb|4:|
+                \item \verb|    target_element->truck_brand = InputTB("New value: ");|
+                \item \verb|    break;|
+                \item Если \verb|0: _updateDbFile(); return;|
+                \item По умолчанию \verb|: std::cout << "\nIncorrect input\n\n";|
+            \end{itemize}
+        \end{itemize}
+\end{itemize}
+
+\subsubsection{Add}
+
+\begin{lstlisting}
+    void Add();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|Driver new_element;|
+    \item \verb|new_element.id = list.Get(list.size-1)->id + 1;|
+    \item \verb|new_element.surname = InputStr("surname: ");|
+    \item \verb|new_element.name = InputStr("name: ");|
+    \item \verb|new_element.patronymic = InputStr("patronymic: ");|
+    \item \verb|new_element.truck_brand = InputTB("truck brand: ");|
+    \item \verb|list.Add(new_element);|
+    \item \verb|_updateDbFile();|
+\end{itemize}
+
+\subsubsection{Delete}
+
+\begin{lstlisting}
+    void Delete(int index);
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|list.Delete(index);|
+    \item Цикл по \verb|i| от \verb|index| до \verb|list.size| 
+    \begin{itemize}
+        \item \verb|list.Get(i)->id = i;|
+    \end{itemize}
+    \item \verb|_updateDbFile();|
+\end{itemize}
+
+\subsubsection{Exit}
+
+\begin{lstlisting}
+    void Exit();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|list.Free();|
+\end{itemize}
+
+\subsubsection{\_loadDataBase}
+
+\begin{lstlisting}
+    void _loadDataBase();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|Driver driver{};|
+    \item \verb|io::CSVReader<5> in(db_path);|
+    \item \verb|in.read_header(io::ignore_extra_column, "id", "name", "surname", "patronymic", "brand_code");|
+    \item \verb|int brand_code;|
+    \item Пока \verb|in.read_row(driver.id, driver.name, driver.surname, driver.patronymic, brand_code)|
+        \begin{itemize}
+            \item \verb|driver.truck_brand = static_cast<TruckBrand>(brand_code);|
+            \item \verb|list.Add(driver);|
+        \end{itemize}
+\end{itemize}
+
+\subsubsection{\_updateDbFile}
+
+\begin{lstlisting}
+    void _updateDbFile() const;
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|std::ofstream fout(db_path, std::ios_base::trunc);|
+    \item \verb|fout << "id,name,surname,patronymic,brand_code\n";|
+    \item \verb|Driver *p = list.head;|
+    \item Пока \verb|p|
+        \begin{itemize}
+            \item 
+            \verb|fout << p->id << ","|\\
+            \verb|     << p->name << ","|\\
+            \verb|     << p->surname << ","|\\
+            \verb|     << p->patronymic << ","|\\
+            \verb|     << static_cast<int>(p->truck_brand);|
+            \item \verb|fout << "\n";|
+            \item \verb|p = p->next;|
+        \end{itemize}
+\end{itemize}
+

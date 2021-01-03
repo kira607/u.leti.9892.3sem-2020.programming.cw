@@ -1,0 +1,112 @@
+\subsection{Модуль administrator\_console.h}
+
+
+\subsubsection{AdministratorConsole}
+
+\underline{Назначение:} Конструктор для инициализации объекта структуры
+
+\underline{Параметры:} \verb|DataBases *data_bases|
+
+\underline{Возвращаемое значение:} \verb|AdministratorConsole|
+
+
+\subsubsection{Run}
+
+\underline{Назначение:} Запуск консоли администратора
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|int|
+
+
+\subsubsection{\_loadRealPassword}
+
+\underline{Назначение:} Загрузка хэша пароля из файла
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{\_uploadPassword}
+
+\underline{Назначение:} Загрузка хэша пароля в файл
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{\_getch}
+
+\underline{Назначение:} 
+Получение символа с клавиатуры без его вывода на экран
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|int|
+
+
+\subsubsection{\_inputPassword}
+
+\underline{Назначение:} Ввод пароля
+
+\underline{Параметры:} 
+\verb|const std::string &prompt, bool show_asterisk=true|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{\_verifyPassword}
+
+\underline{Назначение:} Сравнение хэша пароля с заданным
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|bool|
+
+
+\subsubsection{\_mainMenu}
+
+\underline{Назначение:} Главное меню
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|int|
+
+
+\subsubsection{\_truckMenu}
+
+\underline{Назначение:} Меню для работы с базой данных грузовиков
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{\_driverMenu}
+
+\underline{Назначение:} Меню для работы с базой данных водителей
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{\_routeMenu}
+
+\underline{Назначение:} Меню для работы с базой данных маршрутов
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|void|
+
+
+\subsubsection{\_changePassword}
+
+\underline{Назначение:} Смена установленного пароля на новый
+
+\underline{Параметры:} \verb|-|
+
+\underline{Возвращаемое значение:} \verb|void|
+

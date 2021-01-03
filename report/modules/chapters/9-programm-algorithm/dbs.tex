@@ -1,0 +1,28 @@
+\subsection{Модуль dbs}
+
+\subsubsection{DataBases}
+
+\begin{lstlisting}
+    DataBases();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|schedule_db = ScheduleDataBase();|
+    \item \verb|truck_db = TruckDataBase(&schedule_db);|
+    \item \verb|driver_db = DriverDataBase(&schedule_db);|
+    \item \verb|route_db = RouteDataBase();|
+\end{itemize}
+
+\subsubsection{CloseAll}
+
+\begin{lstlisting}
+    void CloseAll();
+\end{lstlisting}
+
+\begin{itemize}
+    \item \verb|schedule_db.Exit();|
+    \item \verb|truck_db.Exit();|
+    \item \verb|driver_db.Exit();|
+    \item \verb|route_db.Exit();|
+\end{itemize}
+
